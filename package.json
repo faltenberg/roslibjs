@@ -4,7 +4,7 @@
   "description": "The standard ROS Javascript Library",
   "version": "1.1.0",
   "license": "BSD-2-Clause",
-  "main": "./src/RosLibNode.js",
+  "main": "./build/roslib.js",
   "browser": {
     "./src/RosLibNode.js": "./src/RosLib.js",
     "canvas": "./src/util/shim/canvas.js",
@@ -50,11 +50,11 @@
     "node": ">=0.10"
   },
   "scripts": {
+    "prepack": "grunt build",
     "test": "grunt test",
     "test-examples": "grunt mochaTest:examples && xvfb-run -a karma start test/examples/karma.conf.js",
     "test-workersocket": "grunt uglify && xvfb-run -a karma start test/workersocket/karma.conf.js",
-    "test-tcp": "grunt mochaTest:tcp",
-    "publish": "grunt build"
+    "test-tcp": "grunt mochaTest:tcp"
   },
   "repository": {
     "type": "git",

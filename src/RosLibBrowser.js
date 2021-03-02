@@ -1,1 +1,1 @@
-global.ROSLIB = require('./RosLib');
+module.exports = require('./RosLib');
