@@ -53,7 +53,7 @@
     "test-examples": "grunt test-examples",
     "test-workersocket": "grunt test-workersocket",
     "test-tcp": "grunt test-tcp",
-    "publish": "npm run build && npm run test"
+    "publish": "yarn build && yarn test"
   },
   "repository": {
     "type": "git",

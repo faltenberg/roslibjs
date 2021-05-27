@@ -3880,7 +3880,7 @@ Ros.prototype.getTopicsAndRawTypes = function(callback, failedCallback) {
 
 module.exports = Ros;
 
-},{"../util/workerSocket":48,"./Service":17,"./ServiceRequest":18,"./SocketAdapter.js":20,"eventemitter2":2,"object-assign":3,"ws":44}],17:[function(require,module,exports){
+},{"../util/workerSocket":46,"./Service":17,"./ServiceRequest":18,"./SocketAdapter.js":20,"eventemitter2":2,"object-assign":3,"ws":44}],17:[function(require,module,exports){
 /**
  * @fileoverview
  * @author Brandon Alexander - baalexander@gmail.com
@@ -4054,7 +4054,6 @@ module.exports = ServiceResponse;
  */
 'use strict';
 
-var decompressPng = require('../util/decompressPng');
 var CBOR = require('cbor-js');
 var typedArrayTagger = require('../util/cborTypedArrayTags');
 var BSON = null;
@@ -4090,14 +4089,6 @@ function SocketAdapter(client) {
       } else {
         client.emit('status', message);
       }
-    }
-  }
-
-  function handlePng(message, callback) {
-    if (message.op === 'png') {
-      decompressPng(message.data, callback);
-    } else {
-      callback(message);
     }
   }
 
@@ -4160,15 +4151,13 @@ function SocketAdapter(client) {
           handleMessage(message);
         });
       } else if (typeof Blob !== 'undefined' && data.data instanceof Blob) {
-        decodeBSON(data.data, function (message) {
-          handlePng(message, handleMessage);
-        });
+        decodeBSON(data.data, handleMessage);
       } else if (data.data instanceof ArrayBuffer) {
         var decoded = CBOR.decode(data.data, typedArrayTagger);
         handleMessage(decoded);
       } else {
         var message = JSON.parse(typeof data === 'string' ? data : data.data);
-        handlePng(message, handleMessage);
+        handleMessage(message);
       }
     }
   };
@@ -4176,7 +4165,7 @@ function SocketAdapter(client) {
 
 module.exports = SocketAdapter;
 
-},{"../util/cborTypedArrayTags":43,"../util/decompressPng":46,"cbor-js":1}],21:[function(require,module,exports){
+},{"../util/cborTypedArrayTags":43,"cbor-js":1}],21:[function(require,module,exports){
 /**
  * @fileoverview
  * @author Brandon Alexander - baalexander@gmail.com
@@ -4197,7 +4186,7 @@ var Message = require('./Message');
  *   * ros - the ROSLIB.Ros connection handle
  *   * name - the topic name, like /cmd_vel
  *   * messageType - the message type, like 'std_msgs/String'
- *   * compression - the type of compression to use, like 'png', 'cbor', or 'cbor-raw'
+ *   * compression - the type of compression to use, like 'cbor', or 'cbor-raw'
  *   * throttle_rate - the rate (in ms in between messages) at which to throttle the topics
  *   * queue_size - the queue created at bridge side for re-publishing webtopics (defaults to 100)
  *   * latch - latch the topic when publishing
@@ -4218,7 +4207,7 @@ function Topic(options) {
   this.reconnect_on_close = options.reconnect_on_close !== undefined ? options.reconnect_on_close : true;
 
   // Check for valid compression types
-  if (this.compression && this.compression !== 'png' &&
+  if (this.compression &&
     this.compression !== 'cbor' && this.compression !== 'cbor-raw' &&
     this.compression !== 'none') {
     this.emit('warning', this.compression +
@@ -5318,7 +5307,7 @@ function UrdfModel(options) {
 
 module.exports = UrdfModel;
 
-},{"./UrdfJoint":34,"./UrdfLink":35,"./UrdfMaterial":36,"xmldom":47}],39:[function(require,module,exports){
+},{"./UrdfJoint":34,"./UrdfLink":35,"./UrdfMaterial":36,"xmldom":45}],39:[function(require,module,exports){
 /**
  * @fileOverview 
  * @author Benjamin Pitzer - ben.pitzer@gmail.com
@@ -5616,74 +5605,11 @@ if (typeof module !== 'undefined' && module.exports) {
 module.exports = typeof window !== 'undefined' ? window.WebSocket : WebSocket;
 
 },{}],45:[function(require,module,exports){
-/* global document */
-module.exports = function Canvas() {
-	return document.createElement('canvas');
-};
-},{}],46:[function(require,module,exports){
-/**
- * @fileOverview
- * @author Graeme Yeates - github.com/megawac
- */
-
-'use strict';
-
-var Canvas = require('canvas');
-var Image = Canvas.Image || window.Image;
-
-/**
- * If a message was compressed as a PNG image (a compression hack since
- * gzipping over WebSockets * is not supported yet), this function places the
- * "image" in a canvas element then decodes the * "image" as a Base64 string.
- *
- * @private
- * @param data - object containing the PNG data.
- * @param callback - function with params:
- *   * data - the uncompressed data
- */
-function decompressPng(data, callback) {
-  // Uncompresses the data before sending it through (use image/canvas to do so).
-  var image = new Image();
-  // When the image loads, extracts the raw data (JSON message).
-  image.onload = function() {
-    // Creates a local canvas to draw on.
-    var canvas = new Canvas();
-    var context = canvas.getContext('2d');
-
-    // Sets width and height.
-    canvas.width = image.width;
-    canvas.height = image.height;
-
-    // Prevents anti-aliasing and loosing data
-    context.imageSmoothingEnabled = false;
-    context.webkitImageSmoothingEnabled = false;
-    context.mozImageSmoothingEnabled = false;
-
-    // Puts the data into the image.
-    context.drawImage(image, 0, 0);
-    // Grabs the raw, uncompressed data.
-    var imageData = context.getImageData(0, 0, image.width, image.height).data;
-
-    // Constructs the JSON.
-    var jsonData = '';
-    for (var i = 0; i < imageData.length; i += 4) {
-      // RGB
-      jsonData += String.fromCharCode(imageData[i], imageData[i + 1], imageData[i + 2]);
-    }
-    callback(JSON.parse(jsonData));
-  };
-  // Sends the image data to load.
-  image.src = 'data:image/png;base64,' + data;
-}
-
-module.exports = decompressPng;
-
-},{"canvas":45}],47:[function(require,module,exports){
 exports.DOMImplementation = window.DOMImplementation;
 exports.XMLSerializer = window.XMLSerializer;
 exports.DOMParser = window.DOMParser;
 
-},{}],48:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 var work = require('webworkify');
 var workerSocketImpl = require('./workerSocketImpl');
 
@@ -5729,7 +5655,7 @@ WorkerSocket.prototype.close = function() {
 
 module.exports = WorkerSocket;
 
-},{"./workerSocketImpl":49,"webworkify":6}],49:[function(require,module,exports){
+},{"./workerSocketImpl":47,"webworkify":6}],47:[function(require,module,exports){
 var WebSocket = WebSocket || require('ws');
 
 module.exports = function(self) {
