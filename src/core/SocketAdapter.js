@@ -8,7 +8,6 @@
  */
 'use strict';
 
-var decompressPng = require('../util/decompressPng');
 var CBOR = require('cbor-js');
 var typedArrayTagger = require('../util/cborTypedArrayTags');
 var BSON = null;
@@ -25,6 +24,12 @@ if(typeof bson !== 'undefined'){
  * @private
  */
 function SocketAdapter(client) {
+
+  var decoder = null;
+  if (client.transportOptions.decoder) {
+    decoder = client.transportOptions.decoder;
+  }
+
   function handleMessage(message) {
     if (message.op === 'publish') {
       client.emit(message.topic, message.msg);
@@ -38,14 +43,6 @@ function SocketAdapter(client) {
       } else {
         client.emit('status', message);
       }
-    }
-  }
-
-  function handlePng(message, callback) {
-    if (message.op === 'png') {
-      decompressPng(message.data, callback);
-    } else {
-      callback(message);
     }
   }
 
@@ -103,16 +100,18 @@ function SocketAdapter(client) {
      * @memberof SocketAdapter
      */
     onmessage: function onMessage(data) {
-      if (typeof Blob !== 'undefined' && data.data instanceof Blob) {
-        decodeBSON(data.data, function (message) {
-          handlePng(message, handleMessage);
+      if (decoder) {
+        decoder(data.data, function (message) {
+          handleMessage(message);
         });
+      } else if (typeof Blob !== 'undefined' && data.data instanceof Blob) {
+        decodeBSON(data.data, handleMessage);
       } else if (data.data instanceof ArrayBuffer) {
         var decoded = CBOR.decode(data.data, typedArrayTagger);
         handleMessage(decoded);
       } else {
         var message = JSON.parse(typeof data === 'string' ? data : data.data);
-        handlePng(message, handleMessage);
+        handleMessage(message);
       }
     }
   };
