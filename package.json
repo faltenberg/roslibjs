@@ -4,7 +4,7 @@
   "description": "The standard ROS Javascript Library",
   "version": "1.1.1",
   "license": "BSD-2-Clause",
-  "main": "./src/RosLibNode.js",
+  "main": "./build/roslib.js",
   "browser": {
     "./src/RosLibNode.js": "./src/RosLib.js",
     "canvas": "./src/util/shim/canvas.js",
@@ -48,6 +48,7 @@
     "node": ">=0.10"
   },
   "scripts": {
+    "prepack": "grunt build",
     "build": "grunt build",
     "test": "grunt test",
     "test-examples": "grunt test-examples",

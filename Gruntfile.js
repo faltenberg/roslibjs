@@ -13,7 +13,12 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         src: ['./src/RosLibBrowser.js'],
-        dest: './build/roslib.js'
+        dest: './build/roslib.js',
+        options: {
+          browserifyOptions: {
+            standalone: 'roslib',
+          },
+        },
       }
     },
     jshint: {
