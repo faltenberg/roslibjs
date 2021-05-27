@@ -7,7 +7,6 @@
   "main": "./build/roslib.js",
   "browser": {
     "./src/RosLibNode.js": "./src/RosLib.js",
-    "canvas": "./src/util/shim/canvas.js",
     "ws": "./src/util/shim/WebSocket.js",
     "xmldom": "./src/util/shim/xmldom.js"
   },
@@ -53,8 +52,7 @@
     "test": "grunt test",
     "test-examples": "grunt test-examples",
     "test-workersocket": "grunt test-workersocket",
-    "test-tcp": "grunt test-tcp",
-    "publish": "yarn build && yarn test"
+    "test-tcp": "grunt test-tcp"
   },
   "repository": {
     "type": "git",
