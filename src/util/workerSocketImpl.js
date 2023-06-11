@@ -30,7 +30,7 @@ module.exports = function(self) {
       if (data.hasOwnProperty('uri')) {
         var uri = data.uri;
 
-        socket = new WebSocket(uri);
+        socket = new WebSocket(uri, ["foxglove.websocket.v1"]);
         socket.binaryType = 'arraybuffer';
 
         socket.onmessage = handleSocketMessage;
