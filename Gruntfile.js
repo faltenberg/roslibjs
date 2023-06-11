@@ -12,7 +12,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     browserify: {
       dist: {
-        src: ['./src/RosLibBrowser.js'],
+        src: ['./src/RosLibNode.js'],
+        //src: ['./src/RosLibBrowser.js'],
         dest: './build/roslib.js',
         options: {
           browserifyOptions: {
