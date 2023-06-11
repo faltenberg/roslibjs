@@ -66,7 +66,7 @@ Ros.prototype.__proto__ = EventEmitter2.prototype;
 Ros.prototype.connect = function(url) {
   if (this.transportLibrary === 'websocket') {
     if (!this.socket || this.socket.readyState === WebSocket.CLOSED) {
-      var sock = new WebSocket(url);
+      var sock = new WebSocket(url, ["foxglove.websocket.v1"]);
       sock.binaryType = 'arraybuffer';
       this.socket = assign(sock, socketAdapter(this));
     }

@@ -2,7 +2,7 @@
   "name": "@akrinah/roslibjs",
   "homepage": "https://github.com/faltenberg/roslibjs",
   "description": "Fork of @foxglove/roslibjs",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "license": "BSD-2-Clause",
   "main": "./src/RosLibNode.js",
   "browser": {
@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "chai": "*",
-    "grunt": "^1.3.0",
+    "grunt": "^1.6.1",
     "grunt-browserify": "^6.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^2.0.0",
