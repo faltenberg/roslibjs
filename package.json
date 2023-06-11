@@ -6,6 +6,7 @@
   "license": "BSD-2-Clause",
   "main": "./build/roslib.js",
   "browser": {
+    "./src/RosLibNode.js": "./src/RosLib.js",
     "ws": "./src/util/shim/WebSocket.js"
   },
   "devDependencies": {
