@@ -2,9 +2,9 @@
   "name": "@akrinah/roslibjs",
   "homepage": "https://github.com/faltenberg/roslibjs",
   "description": "Fork of @foxglove/roslibjs",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "license": "BSD-2-Clause",
-  "main": "./build/roslib.js",
+  "main": "./src/RosLibNode.js",
   "browser": {
     "./src/RosLibNode.js": "./src/RosLib.js",
     "ws": "./src/util/shim/WebSocket.js"
