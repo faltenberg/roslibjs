@@ -1,7 +1,7 @@
 {
-  "name": "@foxglove/roslibjs",
-  "homepage": "https://github.com/foxglove/roslibjs",
-  "description": "Fork of roslib",
+  "name": "@akrinah/roslibjs",
+  "homepage": "https://github.com/faltenberg/roslibjs",
+  "description": "Fork of @foxglove/roslibjs",
   "version": "0.0.3",
   "license": "BSD-2-Clause",
   "main": "./build/roslib.js",
@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "chai": "*",
-    "grunt": "^1.0.1",
+    "grunt": "^1.3.0",
     "grunt-browserify": "^6.0.0",
     "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^2.0.0",
@@ -51,7 +51,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RobotWebTools/roslibjs/releases"
+    "url": "https://github.com/faltenberg/roslibjs"
   },
   "bugs": {
     "url": "https://github.com/RobotWebTools/roslibjs/issues"
@@ -64,7 +64,7 @@
     "robot"
   ],
   "author": {
-    "name": "Foxglove Technologies",
-    "email": "support@foxglove.dev"
+    "name": "Artur Faltenberg",
+    "email": "akrinah@pm.me"
   }
 }

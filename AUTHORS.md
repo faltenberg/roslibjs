@@ -11,3 +11,8 @@ Contributors
 ------------
 
  * Graeme Yeates (yeatesgraeme@gmail.com)
+
+Fork Authors
+------------
+
+ * Artur Faltenberg
