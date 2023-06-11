@@ -2,7 +2,7 @@
   "name": "@akrinah/roslibjs",
   "homepage": "https://github.com/faltenberg/roslibjs",
   "description": "Fork of @foxglove/roslibjs",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "license": "BSD-2-Clause",
   "main": "./build/roslib.js",
   "browser": {
